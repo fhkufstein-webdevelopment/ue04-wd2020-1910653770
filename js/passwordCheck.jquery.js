@@ -8,9 +8,9 @@ function PasswordChecker(wrapperId, passwordInputFieldId, passwordSubmitButtonId
     this.minLength = 8; //this is what we defined and what we need to consider in our length check
 
     //this attributes are set with our constructor
-    this.wrapperField = $(wrapperId);
-    this.passwordField = $(passwordInputFieldId);
-    this.passwordSubmitButton = $(passwordSubmitButtonId);
+    this.wrapperField = $(wrapperId); //andere Schreibweise bei passwordCheck.js
+    this.passwordField = $(passwordInputFieldId); //andere Schreibweise bei passwordCheck.js
+    this.passwordSubmitButton = $(passwordSubmitButtonId); //andere Schreibweise bei passwordCheck.js
 
 
     var that = this; //a trick because this is a keyword and means different things in a new context! Especially when you work with events or if you call functions outside your class "this" won't mean you!
@@ -28,15 +28,15 @@ function PasswordChecker(wrapperId, passwordInputFieldId, passwordSubmitButtonId
         that.check();
     });
 
-    this.passwordField.keydown(function() {
+    this.passwordField.keydown(function() { //andere Benennung
         that.check();
     });
 
-    this.passwordField.focus(function() {
+    this.passwordField.focus(function() { //andere Benennung
         that.check();
     });
 
-    this.passwordSubmitButton.click(function() {
+    this.passwordSubmitButton.click(function() { //andere Benennung: .onclick
         that.check();
     });
 
@@ -51,13 +51,13 @@ function PasswordChecker(wrapperId, passwordInputFieldId, passwordSubmitButtonId
 
             //if it is long enough and has a special character - everything is fine
             if(longEnough && hasSpecialChars) {
-                this.wrapperField.removeClass(this.warningClass + ' ' + this.errorClass).addClass(this.successClass);
+                this.wrapperField.removeClass(this.warningClass + ' ' + this.errorClass).addClass(this.successClass); //diese Zeile ist weit länger, als in passwordCheck.js
                 this.passwordSubmitButton.attr('disabled', false);
             } else if(!hasSpecialChars && longEnough) { //if it is long enough but it has no special character set class warning
-                this.wrapperField.removeClass(this.successClass + ' ' + this.errorClass).addClass(this.warningClass);
+                this.wrapperField.removeClass(this.successClass + ' ' + this.errorClass).addClass(this.warningClass); //Gleiches gilt für diese Zeile
                 this.passwordSubmitButton.attr('disabled', true);
             } else { //if it is not long enough set class error
-                this.wrapperField.removeClass(this.warningClass + ' ' + this.successClass).addClass(this.errorClass);
+                this.wrapperField.removeClass(this.warningClass + ' ' + this.successClass).addClass(this.errorClass); //und diese Zeile
                 this.passwordSubmitButton.attr('disabled', true);
             }
 
@@ -77,7 +77,20 @@ function PasswordChecker(wrapperId, passwordInputFieldId, passwordSubmitButtonId
     this.checkForLength = function() {
         //@todo
         //have a look at javascript string methods and properties
-        return true; //this needs to be replaced!
+        //return true; //this needs to be replaced!
+        if (length.passwordField > this.minLength) {
+            return true;
+        }
+        else if (length.passwordField == this.minLength) {
+            return true;
+        }
+        else {
+            return false;
+        }
+        //Versuch: this.passwordField
+        //anderer Versuch: length.document.getElementById(passwordInputFieldId)
+        //weiterer Versuch: length(this.passwordField)
+        //irgendwie müsste man sich die Länge von passwordField hohlen und diese mit minLength vergleichen
     };
 
     /*
@@ -87,7 +100,16 @@ function PasswordChecker(wrapperId, passwordInputFieldId, passwordSubmitButtonId
         //@todo
         //have a look at javascript string methods and properties
         //you could probably "match" it somehow
-        return true; //this needs to be replaced!
+        //return true; //this needs to be replaced!
+        if(this.passwordField.contains("!") || this.passwordField.contains("\"") || this.passwordField.contains("§") || this.passwordField.contains("$")
+            || this.passwordField.contains("%") || this.passwordField.contains("&") || this.passwordField.contains("/")
+            || this.passwordField.contains("(") || this.passwordField.contains(")") || this.passwordField.contains("?")
+            || this.passwordField.contains("=")){ //inkl. weitere Sonderzeichen (aber vermutlich gibt es eine richtigere Variante)
+            return true;
+        }
+        else {
+            return false;
+        }
     };
     //TODO 2 end
 }

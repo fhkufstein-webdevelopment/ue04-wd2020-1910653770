@@ -13,7 +13,8 @@ function PasswordChecker(wrapperId, passwordInputFieldId, passwordSubmitButtonId
     this.passwordSubmitButton = document.getElementById(passwordSubmitButtonId);
 
 
-    var that = this; //a trick because this is a keyword and means different things in a new context! Especially when you work with events or if you call functions outside your class "this" won't mean you!
+    var that = this; //a trick because this is a keyword and means different things in a new context!
+    // Especially when you work with events or if you call functions outside your class "this" won't mean you!
 
     //TODO start
     //now for the events which should fire:
@@ -30,10 +31,17 @@ function PasswordChecker(wrapperId, passwordInputFieldId, passwordSubmitButtonId
     };
 
     //TODO implement the other events in the exact same way!
+    this. passwordField.onfocus = function () {
+        that.check();
+    }
 
+    this.passwordField.onkeyup = function () { //oder onekeup
+        that.check();
+    }
 
-
-
+    this.passwordSubmitButton.onclick = function () {
+        that.check();
+    }
     //TODO end
 
     this.check = function() {
@@ -71,7 +79,21 @@ function PasswordChecker(wrapperId, passwordInputFieldId, passwordSubmitButtonId
     this.checkForLength = function() {
         //@todo
         //have a look at javascript string methods and properties
-        return true; //this needs to be replaced!
+        //return true; //this needs to be replaced!
+
+        if (length.passwordField > this.minLength) {
+            return true;
+        }
+        else if (length.passwordField == this.minLength) {
+            return true;
+        }
+        else {
+            return false;
+        }
+        //Versuch: this.passwordField
+        //anderer Versuch: length.document.getElementById(passwordInputFieldId)
+        //weiterer Versuch: length(this.passwordField)
+        //irgendwie müsste man sich die Länge von passwordField hohlen und diese mit minLength vergleichen
     };
 
     /*
@@ -81,8 +103,15 @@ function PasswordChecker(wrapperId, passwordInputFieldId, passwordSubmitButtonId
         //@todo
         //have a look at javascript string methods and properties
         //you could probably "match" it somehow
-        return true; //this needs to be replaced!
+        //return true; //this needs to be replaced!
+        if(this.passwordField.contains("!") || this.passwordField.contains("\"") || this.passwordField.contains("§") || this.passwordField.contains("$")
+            || this.passwordField.contains("%") || this.passwordField.contains("&") || this.passwordField.contains("/")
+            || this.passwordField.contains("(") || this.passwordField.contains(")") || this.passwordField.contains("?")
+            || this.passwordField.contains("=")){ //inkl. weitere Sonderzeichen (aber vermutlich gibt es eine richtigere Variante)
+            return true;
+        }
+        else {
+            return false;
+        }
     };
 }
-
-
